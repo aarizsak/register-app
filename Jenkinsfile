@@ -9,7 +9,7 @@ pipeline {
 	    RELASE   = "1.0.0"
 	    DOCKER_USER = "aarizsak"
 	    DOCKER_PASS = "dockerhub-pass"
-	    IMAGE_NAME = "${DOCKER_USER}" + "/" + + "${APP_NAME}"
+	    IMAGE_NAME = "${DOCKER_USER}" + "/" +  "${APP_NAME}"
 	    IMAGE_TAG = "${RELEASE}"-"${BUILD_NUMBER}"
 	    
     }	
