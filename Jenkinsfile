@@ -4,15 +4,14 @@ pipeline {
         jdk 'java17'
         maven 'maven3'
     }
-    environment{
-	    APP_NAME = "register-aa--ci"
-	    RELASE   = "1.0.0"
-	    DOCKER_USER = "aarizsak"
-	    DOCKER_PASS = "dockerhub-pass"
-	    IMAGE_NAME = "${DOCKER_USER}" + "/" +  "${APP_NAME}"
-	    IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
-	    
-    }	
+    environment {
+	    APP_NAME = "register-app-pipeline"
+            RELEASE = "1.0.0"
+            DOCKER_USER = "aarizsak"
+            DOCKER_PASS = 'dockerhub-pass'
+            IMAGE_NAME = "${DOCKER_USER}" + "/" + "${APP_NAME}"
+            IMAGE_TAG = "${RELEASE}-${BUILD_NUMBER}"
+    }	    
     stages {
 	stage('clean ws'){
 	   steps{
@@ -52,19 +51,23 @@ pipeline {
            }
 
       }
-      stage("docker build and push"){
-	    steps{
-		 script{
-		    docker.withRegistry('',DOCKER_PASS){
-			 docker_image = docker.build "${IMAGE_NAME}"
-		    }
-		 docker.withRegistry('',DOCKER_PASS) {
+      stage("Build & Push Docker Image") {
+            steps {
+                script {
+                    docker.withRegistry('',DOCKER_PASS) {
+                        docker_image = docker.build "${IMAGE_NAME}"
+                    }
+
+                    docker.withRegistry('',DOCKER_PASS) {
                         docker_image.push("${IMAGE_TAG}")
-                        docker_image.push('latest') 
-		 }
-		 }   
-	    }
-      }	     
+                        docker_image.push('latest')
+                    }
+                }
+            }
+
+       }
+	    
+     
 		
 		
   }    
