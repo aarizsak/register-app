@@ -4,6 +4,15 @@ pipeline {
         jdk 'java17'
         maven 'maven3'
     }
+    environment{
+	    APP_NAME = "register-aa--ci"
+	    RELASE   = "1.0.0"
+	    DOCKER_USER = "aarizsak"
+	    DOCKER_PASS = "dockerhub_pass"
+	    IMAGE_NAME = "${DOCKER_USER}" + "/" + + "${APP_NAME}"
+	    IMAGE_TAG = "${RELEASE}"-"${BUILD_NUMBER}"
+	    
+    }	
     stages {
 	stage('clean ws'){
 	   steps{
